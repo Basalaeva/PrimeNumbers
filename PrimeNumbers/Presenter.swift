@@ -13,6 +13,7 @@ protocol IPresenter {
     func giveItemToShow (index: Int) -> String
     func setNumberOfItems() -> Int
     func showPrimeNumbers(upperLimit: String?)
+    init(view: IView)
 }
 
 class Presenter: IPresenter {
@@ -36,7 +37,7 @@ class Presenter: IPresenter {
         view?.updateView()
     }
     
-    init(view: IView) {
+    required init(view: IView) {
         self.view = view
     }
     
