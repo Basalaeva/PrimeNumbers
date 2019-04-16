@@ -79,7 +79,7 @@
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
                                 <state key="normal" title="Рассчитать"/>
                                 <connections>
-                                    <action selector="calculatePrimeNumbers:" destination="BYZ-38-t0r" eventType="touchUpInside" id="xf3-qy-teR"/>
+                                    <action selector="didTapCalculateButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="zxn-Py-Ocd"/>
                                 </connections>
                             </button>
                         </subviews>
