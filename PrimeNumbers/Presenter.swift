@@ -7,38 +7,35 @@
 //
 
 import Foundation
-import UIKit
 
-protocol IPresenter {
-    func giveItemToShow (index: Int) -> String
-    func setNumberOfItems() -> Int
+protocol IPresenter: AnyObject {
+    func item(for indexPath: IndexPath) -> String
+    func numberOfItems() -> Int
     func showPrimeNumbers(upperLimit: String?)
     init(view: IView)
 }
 
-class Presenter: IPresenter {
+final class Presenter: IPresenter {
+    private weak var view: IView?
     
-    weak var view: IView?
     private let primeNumbersCalculator = PrimeNumbersCalculator()
-    private var primeNumbers:[String] = []
-    
-    
-    func giveItemToShow (index: Int) -> String {
-        return primeNumbers[index]
-    }
-    func setNumberOfItems() -> Int {
-        return primeNumbers.count
-    }
-    func showPrimeNumbers(upperLimit: String?) {
-        guard let n = Int(upperLimit ?? "") else {
-            return
-        }
-        primeNumbers = primeNumbersCalculator.calculatePrimeNumbers(n: n).map{String($0)}
-        view?.updateView()
-    }
+    private var primeNumbers: [String] = []
     
     required init(view: IView) {
         self.view = view
     }
     
+    func item(for indexPath: IndexPath) -> String {
+        return primeNumbers[indexPath.row]
+    }
+    func numberOfItems() -> Int {
+        return primeNumbers.count
+    }
+    func showPrimeNumbers(upperLimit: String?) {
+        guard let numbers = Int(upperLimit ?? "") else {
+            return
+        }
+        primeNumbers = primeNumbersCalculator.calculatePrimeNumbers(n: numbers).map{String($0)}
+        view?.updateView()
+    }
 }

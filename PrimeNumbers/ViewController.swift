@@ -12,14 +12,14 @@ protocol IView: AnyObject {
     func updateView()
 }
 
-class ViewController: UIViewController, IView {
+final class ViewController: UIViewController, IView {
     
     lazy var presenter: IPresenter = Presenter(view: self)
     
     @IBOutlet weak var upperLimit: UITextField!
     @IBOutlet weak var primeNumbersCollectionView: UICollectionView!
     
-    @IBAction func didTapCalculateButton (_ sender: UIButton) {
+    @IBAction func didTapCalculateButton(_ sender: UIButton) {
         
         upperLimit.resignFirstResponder()
         presenter.showPrimeNumbers(upperLimit: upperLimit.text)
@@ -33,7 +33,7 @@ class ViewController: UIViewController, IView {
         
     }
     
-    func updateView () {
+    func updateView() {
         primeNumbersCollectionView.reloadData()
     }
 }
@@ -41,12 +41,15 @@ class ViewController: UIViewController, IView {
 extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return presenter.setNumberOfItems()
+        return presenter.numberOfItems()
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = primeNumbersCollectionView.dequeueReusableCell(withReuseIdentifier: "PrimeNumberCell", for: indexPath) as! CollectionViewCell
-        cell.cellText.text = presenter.giveItemToShow(index: indexPath.row)
+        guard let cell = primeNumbersCollectionView.dequeueReusableCell(withReuseIdentifier: "PrimeNumberCell", for: indexPath) as? CollectionViewCell else {
+            assertionFailure("Can't cast to PrimeNumberCell")
+            return UICollectionViewCell()
+        }
+        cell.configure(with: presenter.item(for: indexPath))
         return cell
     }
 }

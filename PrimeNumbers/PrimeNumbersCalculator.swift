@@ -7,14 +7,16 @@
 //
 
 import Foundation
-class PrimeNumbersCalculator {
-    
+
+class PrimeNumbersCalculator
+{
     func calculatePrimeNumbers (n: Int) -> [Int] {
         guard n >= 2 else {
             return []
         }
         var array = Array(repeating: true, count: n + 1)
         var resultArray: [Int] = []
+        
         for p in 2...n
         {
             if array[p]

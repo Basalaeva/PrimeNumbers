@@ -10,5 +10,9 @@ import UIKit
 
 class CollectionViewCell: UICollectionViewCell {
     
-    @IBOutlet weak var cellText: UILabel!
+    @IBOutlet private weak var cellText: UILabel!
+    
+    func configure(with text: String) {
+        cellText.text = text
+    }
 }
