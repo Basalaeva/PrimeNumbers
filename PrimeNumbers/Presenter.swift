@@ -9,15 +9,15 @@
 import Foundation
 
 protocol IPresenter: AnyObject {
-    func item(for indexPath: IndexPath) -> String
+    func item(for index: Int) -> String
     func numberOfItems() -> Int
     func showPrimeNumbers(upperLimit: String?)
     init(view: IView)
 }
 
 final class Presenter: IPresenter {
-    private weak var view: IView?
     
+    private weak var view: IView?
     private let primeNumbersCalculator = PrimeNumbersCalculator()
     private var primeNumbers: [String] = []
     
@@ -25,8 +25,8 @@ final class Presenter: IPresenter {
         self.view = view
     }
     
-    func item(for indexPath: IndexPath) -> String {
-        return primeNumbers[indexPath.row]
+    func item(for index: Int) -> String {
+        return primeNumbers[index]
     }
     func numberOfItems() -> Int {
         return primeNumbers.count

@@ -14,22 +14,22 @@ protocol IView: AnyObject {
 
 final class ViewController: UIViewController, IView {
     
-    lazy var presenter: IPresenter = Presenter(view: self)
+    private lazy var presenter: IPresenter = Presenter(view: self)
     
-    @IBOutlet weak var upperLimit: UITextField!
-    @IBOutlet weak var primeNumbersCollectionView: UICollectionView!
-    
-    @IBAction func didTapCalculateButton(_ sender: UIButton) {
-        
-        upperLimit.resignFirstResponder()
-        presenter.showPrimeNumbers(upperLimit: upperLimit.text)
-        
-    }
+    @IBOutlet private weak var upperLimit: UITextField!
+    @IBOutlet private weak var primeNumbersCollectionView: UICollectionView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         primeNumbersCollectionView.delegate = self
         primeNumbersCollectionView.dataSource = self
+        
+    }
+    
+    @IBAction private func didTapCalculateButton(_ sender: UIButton) {
+        
+        upperLimit.resignFirstResponder()
+        presenter.showPrimeNumbers(upperLimit: upperLimit.text)
         
     }
     
@@ -49,7 +49,7 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource {
             assertionFailure("Can't cast to PrimeNumberCell")
             return UICollectionViewCell()
         }
-        cell.configure(with: presenter.item(for: indexPath))
+        cell.configure(with: presenter.item(for: indexPath.row))
         return cell
     }
 }
